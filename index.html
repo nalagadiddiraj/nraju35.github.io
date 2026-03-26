@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nalagadiddi Raju — Software Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #ffffff;
+    --off: #f7f6f3;
+    --light: #eeece8;
+    --border: #e0ddd7;
+    --text: #1a1916;
+    --muted: #7a7870;
+    --accent: #1a5c3a;
+    --accent-light: #e8f2ec;
+    --accent2: #c17f3a;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(255,255,255,0.93);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5vw;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+  .logo span { color: var(--accent); }
+
+  .nav-links { list-style: none; display: flex; gap: 2.2rem; align-items: center; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    padding: 0.45rem 1.2rem;
+    background: var(--accent);
+    color: white !important;
+    border-radius: 100px;
+    font-weight: 500 !important;
+    transition: background 0.2s, transform 0.2s !important;
+  }
+  .nav-cta:hover { background: #144d30 !important; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 80px 5vw 0;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -100px; top: 50%;
+    transform: translateY(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--accent-light) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-left { position: relative; z-index: 1; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    background: var(--accent-light);
+    border: 1px solid rgba(26,92,58,0.15);
+    border-radius: 100px;
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: rise 0.7s 0.1s forwards;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.6rem, 4.5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: rise 0.7s 0.25s forwards;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--accent); }
+
+  .hero-sub {
+    font-size: 0.95rem;
+    color: var(--muted);
+    max-width: 440px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    opacity: 0;
+    animation: rise 0.7s 0.4s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: rise 0.7s 0.55s forwards;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-dark { background: var(--text); color: white; }
+  .btn-dark:hover { background: #2a2925; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,25,22,0.15); }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--text); color: var(--text); transform: translateY(-2px); }
+
+  /* Profile Card */
+  .hero-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: rise 0.7s 0.3s forwards;
+  }
+
+  .profile-card {
+    background: var(--off);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .profile-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #2d9e60);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    color: white;
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+  }
+
+  .profile-name { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 0.2rem; }
+  .profile-role { font-size: 0.78rem; color: var(--muted); margin-bottom: 1.5rem; }
+
+  .profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+  }
+
+  .stat-num { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 400; color: var(--accent); display: block; }
+  .stat-label { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.03em; }
+
+  .profile-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+  .tech-pill {
+    padding: 0.25rem 0.65rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.67rem;
+    color: var(--muted);
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 5vw; }
+
+  .section-header {
+    margin-bottom: 3.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+  }
+
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  h2 em { font-style: italic; color: var(--accent2); }
+
+  /* ABOUT */
+  #about { background: var(--off); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-text p { color: var(--muted); font-size: 0.92rem; line-height: 1.85; margin-bottom: 1.25rem; }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .resume-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    color: var(--accent);
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+    transition: opacity 0.2s;
+  }
+  .resume-link:hover { opacity: 0.7; }
+
+  .skills-col h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+
+  .skill-list { list-style: none; display: flex; flex-direction: column; }
+
+  .skill-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--muted);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--light);
+  }
+
+  .skill-list li span:first-child { color: var(--text); font-weight: 400; }
+  .skill-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+
+  /* EXPERIENCE */
+  #experience { background: var(--white); }
+
+  .exp-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .exp-card {
+    background: var(--off);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--accent), #2d9e60);
+  }
+
+  .exp-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .exp-title { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 400; }
+  .exp-company { color: var(--accent); font-size: 0.85rem; font-weight: 500; margin-bottom: 0.3rem; }
+
+  .exp-date {
+    font-size: 0.72rem;
+    color: var(--muted);
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.2rem 0.75rem;
+    white-space: nowrap;
+  }
+
+  .exp-projects { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .exp-project { font-size: 0.82rem; color: var(--muted); line-height: 1.75; padding-left: 1rem; border-left: 2px solid var(--border); }
+  .exp-project strong { color: var(--text); font-weight: 500; display: block; margin-bottom: 0.2rem; }
+
+  /* PROJECTS */
+  #projects { background: var(--off); }
+
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .project-row {
+    background: var(--white);
+    padding: 1.75rem 2.5rem;
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+  }
+
+  .project-row:hover { background: var(--off); }
+
+  .project-index {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--light);
+    line-height: 1;
+  }
+
+  .project-info h3 { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 400; margin-bottom: 0.3rem; }
+  .project-info p { font-size: 0.78rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.6rem; }
+
+  .project-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+  .tag {
+    padding: 0.15rem 0.55rem;
+    background: var(--light);
+    border-radius: 100px;
+    font-size: 0.64rem;
+    color: var(--muted);
+  }
+
+  .project-arrow { font-size: 1.1rem; color: var(--border); transition: color 0.2s, transform 0.2s; }
+  .project-row:hover .project-arrow { color: var(--accent); transform: translateX(4px); }
+
+  /* SKILLS GRID */
+  #skills { background: var(--white); }
+
+  .skills-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-cat {
+    background: var(--off);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: box-shadow 0.2s;
+  }
+
+  .skill-cat:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+
+  .skill-cat-title {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+  .chip {
+    padding: 0.25rem 0.65rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* CONTACT */
+  #contact { background: var(--text); color: var(--white); }
+  #contact .section-label { color: rgba(255,255,255,0.4); }
+  #contact h2 { color: var(--white); }
+  #contact h2 em { color: #7dbf99; }
+  #contact .section-header { border-color: rgba(255,255,255,0.1); }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+
+  .contact-text p { color: rgba(255,255,255,0.5); font-size: 0.9rem; line-height: 1.8; margin-bottom: 2rem; }
+
+  .contact-email {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--white);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 4px;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+    word-break: break-all;
+  }
+
+  .contact-email:hover { border-color: #7dbf99; color: #7dbf99; }
+
+  .social-links { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .social-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    text-decoration: none;
+    color: rgba(255,255,255,0.65);
+    font-size: 0.82rem;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.03);
+  }
+
+  .social-row:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.2); color: white; transform: translateX(5px); }
+  .social-handle { font-size: 0.7rem; opacity: 0.45; }
+
+  /* FOOTER */
+  footer {
+    background: var(--text);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 1.5rem 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.72rem;
+  }
+
+  /* ANIMATIONS */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 100px; }
+    .hero-right { display: none; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .project-row { grid-template-columns: 32px 1fr; }
+    .project-arrow { display: none; }
+    nav { padding: 0 1.5rem; }
+    .nav-links { gap: 1rem; }
+    section { padding: 4rem 1.5rem; }
+    .exp-header { flex-direction: column; }
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--white); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">N<span>.</span>Raju</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact" class="nav-cta">Hire me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Open to opportunities</div>
+    <h1>Nalagadiddi<br><em>Raju</em></h1>
+    <p class="hero-sub">Results-oriented Software Developer with <strong>3.8 years</strong> of experience building HRMS, ERP, e-commerce, and healthcare platforms using Laravel, PHP, and Ruby on Rails.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-dark">View Projects →</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="profile-card">
+      <div class="profile-avatar">NR</div>
+      <div class="profile-name">Nalagadiddi Raju</div>
+      <div class="profile-role">Software Developer · AP, India</div>
+      <div class="profile-stats">
+        <div class="stat"><span class="stat-num">3.8</span><span class="stat-label">Yrs exp.</span></div>
+        <div class="stat"><span class="stat-num">6+</span><span class="stat-label">Projects</span></div>
+        <div class="stat"><span class="stat-num">3</span><span class="stat-label">Companies</span></div>
+      </div>
+      <div class="profile-tech">
+        <span class="tech-pill">Laravel</span>
+        <span class="tech-pill">PHP</span>
+        <span class="tech-pill">Ruby on Rails</span>
+        <span class="tech-pill">MySQL</span>
+        <span class="tech-pill">AWS</span>
+        <span class="tech-pill">REST APIs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header fade-in">
+    <p class="section-label">About me</p>
+    <h2>Passionate about<br><em>clean code</em></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>Hi! I'm <strong>Nalagadiddi Raju</strong>, a software developer based in <strong>Andhra Pradesh, India</strong> with 3.8 years of hands-on experience in full-stack web development.</p>
+      <p>I specialize in building enterprise-grade applications — from <strong>HRMS and ERP systems</strong> using Laravel to healthcare platforms using Ruby on Rails. I'm dedicated to writing clean, maintainable code and delivering solutions that genuinely improve operational efficiency.</p>
+      <p>I follow <strong>SOLID principles and MVC architecture</strong>, work comfortably in Agile/Scrum environments, and am experienced with AWS cloud services and CI/CD pipelines.</p>
+      <a href="https://www.linkedin.com/in/nraju35/" target="_blank" class="resume-link">LinkedIn Profile ↗</a>
+    </div>
+    <div class="skills-col fade-in">
+      <h3>Core Strengths</h3>
+      <ul class="skill-list">
+        <li><span>Laravel 11 / 12</span><span class="skill-dot"></span></li>
+        <li><span>PHP & Ruby</span><span class="skill-dot"></span></li>
+        <li><span>CodeIgniter 3 / 4</span><span class="skill-dot"></span></li>
+        <li><span>Ruby on Rails</span><span class="skill-dot"></span></li>
+        <li><span>MySQL / PostgreSQL</span><span class="skill-dot"></span></li>
+        <li><span>AWS (S3, EC2, IAM)</span><span class="skill-dot"></span></li>
+        <li><span>REST APIs / JSON</span><span class="skill-dot"></span></li>
+        <li><span>Git / GitLab / CI/CD</span><span class="skill-dot"></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header fade-in">
+    <p class="section-label">Work History</p>
+    <h2>Where I've <em>worked</em></h2>
+  </div>
+  <div class="exp-list">
+
+    <div class="exp-card fade-in">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Software Developer</div>
+          <div class="exp-company">GTick HR Solutions Private Limited</div>
+        </div>
+        <span class="exp-date">Sep 2024 — Present</span>
+      </div>
+      <div class="exp-projects">
+        <div class="exp-project">
+          <strong>HRMS Project Development</strong>
+          Built a comprehensive Human Resource Management System using Laravel, covering employee onboarding, payroll, attendance tracking, performance evaluation, and leave management. Applied MVC architecture for a secure and scalable platform.
+        </div>
+        <div class="exp-project">
+          <strong>ERP Project Development</strong>
+          Developed an Enterprise Resource Planning system supporting inventory management, procurement, finance, and sales. Built scalable Laravel modules enabling real-time analytics and automated workflows.
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card fade-in">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">IT – Software Developer</div>
+          <div class="exp-company">B W R Ltd, Chalisgaon, Maharashtra</div>
+        </div>
+        <span class="exp-date">June 2023 — Aug 2024</span>
+      </div>
+      <div class="exp-projects">
+        <div class="exp-project">
+          <strong>3Idea — E-commerce Platform</strong>
+          Involved in design, coding, and debugging of a full e-commerce website.
+        </div>
+        <div class="exp-project">
+          <strong>RTMS — Real-Time Machine Tracking System</strong>
+          Developed a live tracking system for monitoring and managing industrial machines in real-time.
+        </div>
+        <div class="exp-project">
+          <strong>BWR Website Development</strong>
+          Designed and implemented web pages for the Bharat Wire Ropes company website.
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card fade-in">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Software Engineer Trainee</div>
+          <div class="exp-company">Srishti Software Applications Pvt. Ltd.</div>
+        </div>
+        <span class="exp-date">Sep 2022 — June 2023</span>
+      </div>
+      <div class="exp-projects">
+        <div class="exp-project">
+          <strong>PARAS — Healthcare Solution</strong>
+          Worked on an end-to-end patient care platform covering patient registration, episode management, diet planning, and prescription records. Used Ruby on Rails with PostgreSQL. Interacted with clients for requirement gathering and handled database design, control logic, and view implementation.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header fade-in">
+    <p class="section-label">Selected work</p>
+    <h2>Projects I've <em>built</em></h2>
+  </div>
+  <div class="projects-list fade-in">
+
+    <a href="#" class="project-row">
+      <div class="project-index">01</div>
+      <div class="project-info">
+        <h3>HRMS — Human Resource Management System</h3>
+        <p>Full-featured HR platform with employee onboarding, payroll, attendance, performance evaluation, and leave management built with Laravel MVC.</p>
+        <div class="project-tags">
+          <span class="tag">Laravel</span><span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Bootstrap</span><span class="tag">REST API</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </a>
+
+    <a href="#" class="project-row">
+      <div class="project-index">02</div>
+      <div class="project-info">
+        <h3>ERP — Enterprise Resource Planning</h3>
+        <p>Scalable ERP system covering inventory, procurement, finance and sales with real-time analytics and automated workflows across departments.</p>
+        <div class="project-tags">
+          <span class="tag">Laravel</span><span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">AJAX</span><span class="tag">AWS</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </a>
+
+    <a href="#" class="project-row">
+      <div class="project-index">03</div>
+      <div class="project-info">
+        <h3>PARAS — Healthcare Solution</h3>
+        <p>End-to-end patient care platform handling registration, episode management, diet planning, and prescriptions using Ruby on Rails and PostgreSQL.</p>
+        <div class="project-tags">
+          <span class="tag">Ruby on Rails</span><span class="tag">PostgreSQL</span><span class="tag">Bootstrap</span><span class="tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </a>
+
+    <a href="#" class="project-row">
+      <div class="project-index">04</div>
+      <div class="project-info">
+        <h3>RTMS — Real-Time Machine Tracking System</h3>
+        <p>Live dashboard for monitoring and managing industrial machines in real-time with status tracking and alerts.</p>
+        <div class="project-tags">
+          <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">AJAX</span><span class="tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </a>
+
+    <a href="#" class="project-row">
+      <div class="project-index">05</div>
+      <div class="project-info">
+        <h3>3Idea — E-commerce Platform</h3>
+        <p>Contributed to design, coding, and debugging of a full-featured e-commerce website with product management and order workflows.</p>
+        <div class="project-tags">
+          <span class="tag">PHP</span><span class="tag">CodeIgniter</span><span class="tag">MySQL</span><span class="tag">Bootstrap</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header fade-in">
+    <p class="section-label">Technical Skills</p>
+    <h2>Tools &amp; <em>Technologies</em></h2>
+  </div>
+  <div class="skills-categories fade-in">
+
+    <div class="skill-cat">
+      <div class="skill-cat-title">Frameworks</div>
+      <div class="skill-chips">
+        <span class="chip">Laravel 11/12</span>
+        <span class="chip">CodeIgniter 4</span>
+        <span class="chip">CodeIgniter 3</span>
+        <span class="chip">Ruby on Rails</span>
+        <span class="chip">REST APIs</span>
+        <span class="chip">Microservices</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat-title">Languages & Web</div>
+      <div class="skill-chips">
+        <span class="chip">PHP</span>
+        <span class="chip">Ruby</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">HTML & CSS</span>
+        <span class="chip">AJAX</span>
+        <span class="chip">JSON</span>
+        <span class="chip">Bootstrap</span>
+        <span class="chip">Java (Basic)</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat-title">Databases</div>
+      <div class="skill-chips">
+        <span class="chip">MySQL</span>
+        <span class="chip">PostgreSQL</span>
+        <span class="chip">SQL</span>
+        <span class="chip">PL/SQL</span>
+        <span class="chip">PHPMyAdmin</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat-title">Cloud & DevOps</div>
+      <div class="skill-chips">
+        <span class="chip">AWS S3</span>
+        <span class="chip">AWS EC2</span>
+        <span class="chip">AWS IAM</span>
+        <span class="chip">CI/CD Basics</span>
+        <span class="chip">GitLab Pipelines</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat-title">Version Control</div>
+      <div class="skill-chips">
+        <span class="chip">Git</span>
+        <span class="chip">GitHub</span>
+        <span class="chip">GitLab</span>
+        <span class="chip">Bitbucket</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat-title">Tools & Concepts</div>
+      <div class="skill-chips">
+        <span class="chip">VS Code</span>
+        <span class="chip">PhpStorm</span>
+        <span class="chip">XAMPP</span>
+        <span class="chip">SOLID Principles</span>
+        <span class="chip">MVC</span>
+        <span class="chip">Agile/Scrum</span>
+        <span class="chip">JIRA</span>
+        <span class="chip">Linux (Bash)</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header fade-in">
+    <p class="section-label">Say hello</p>
+    <h2>Let's build<br>something <em>great</em></h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-text fade-in">
+      <p>I'm open to full-time roles and interesting projects. Whether you need a Laravel developer, a full-stack engineer, or just want to connect — I'd love to hear from you.</p>
+      <a href="mailto:nalagadiddiraju35@gmail.com" class="contact-email">nalagadiddiraju35@gmail.com</a>
+    </div>
+    <div class="social-links fade-in">
+      <a href="https://www.linkedin.com/in/nraju35/" class="social-row" target="_blank">
+        <span>LinkedIn</span>
+        <span class="social-handle">linkedin.com/in/nraju35 →</span>
+      </a>
+      <a href="tel:+917093891753" class="social-row">
+        <span>Phone</span>
+        <span class="social-handle">+91-7093891753 →</span>
+      </a>
+      <a href="mailto:nalagadiddiraju35@gmail.com" class="social-row">
+        <span>Email</span>
+        <span class="social-handle">nalagadiddiraju35@gmail.com →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Nalagadiddi Raju</span>
+  <span>Andhra Pradesh, India</span>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.fade-in');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 90);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.07 });
+  els.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
